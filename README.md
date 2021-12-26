@@ -96,3 +96,10 @@ const themeContext = useContext(ThemeContext)
 đối tượng themeContext chính là consumer có các thuộc tính là theme, toogleTheme
 
 sử dụng useContext kết hợp với useReduce tương tự với state cần tách được các file: action, reproduce
+
+
+## useImperativeHandle
+
+Sử dụng để đóng gói truyền Ref từ cha xuống con.
+Sử dụng kèm với forwardRef.
+Chú ý phần component con khi sử dụng với forwardRef cần lưu ý chứa cả hai tham số props và ref
