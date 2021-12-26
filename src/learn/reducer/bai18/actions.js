@@ -1,0 +1,2 @@
+export const INCREASE_ACTION = 'INCREASE';
+export const DECREASE_ACTION = 'DECREASE';

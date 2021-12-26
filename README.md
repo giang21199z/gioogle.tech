@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+## hook
+1. Chỉ dùng cho function component không dành cho class component
+2. Component đơn giản và trở nên dễ hiểu
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# useState hook
+### Dùng khi nào?
+Khi muốn dữ liệu thay đổi thì giao diện tự động cập nhật ( render lại giao diện )
 
-## Available Scripts
+### Lưu ý
+- Component được re-render sau khi `setState`
+- Initial state chỉ dùng cho lần đầu
+- setState với callback 
+  setCount(prevState => prevState + 1);
+- Inital state với call back
+- Khi setState thì đi thay thế giá trị mới
 
-In the project directory, you can run:
+# useEffect hook
+Có 3 loại useEffect
+1. useEffect(callback)
+- gọi callback mỗi khi component được render
+- gọi callback mỗi khi component được thêm vào dom
+2. useEffect(callback, [])
+- chỉ gọi call back mõi khi component được mount tương tự ngOnit
+- Sử dụng cho listen dom event
+3. useEffect(callback, [deps])
+- callback sẽ được gọi khi deps khi thay đổi bởi việc so sánh ===
+### Chú ý
+1. callback luôn được gọi khi component được mount
+2. cleanup function luôn được gọi trước khi component được unmount
+3. cleanup function luôn được gọi trước khi callback được gọi trừ lần mounted
 
-### `npm start`
+# useLayoutEffect hook
+Khác với useEffect một chút đoạn render UI sẽ không được ưu tiên bằng callback trong useLayoutEffect
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+So sánh khác nhau giữa useEffect & useLayoutEffect
+## useEffect
+1. Cập nhật lại state
+2. Cập nhật lại DOM
+3. Render lại UI
+4. Gọi cleanup nếu deps thay đổi
+5. Gọi useEffect callback
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## useLayoutEffect
+1. Cập nhật lại state
+2. Cập nhật lại DOM
+3. Gọi cleanup nếu deps thay đổi (sync)
+4. Gọi useLayoutEffect callback
+5. Render lại UI
 
-### `npm test`
+## useRef
+const ref = useRef(initialValue);
+Luôn trả về 1 object có key là current
+initialValue chỉ khởi tạo một lần giống hệt useState
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## memo
+Chức năng ghi nhớ component không cần render khi không cần thiết
+Chủ yếu sử dụng để tối ưu không nên lạm dụng
+Kiểm tra === ít nhất 1 prop của con thì mới render lại component con
 
-### `npm run build`
+## useCallback
+Ví dụ đưa cái button increase vào component con để tương tác ngược lại với component cha
+UseCallback phải + với memo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## useMemo
+Tránh thực hiện lại một logic nào đó không cần thiết
+Chỉ tính lại khi deps thay đổi
+useMemo(callback, [deps])
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## useReducer
+Sử dụng để phân tách logic nếu với các trường hợp quá nhiều state
+Các bước làm việc với reducer
+1. Initial state
+2. Action
+3. Reducer
+4. Dispatch
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+useReducer(reducer, initialState) tra ve state & dispatch
+const [count, dispatch] = useReducer(reducer, initialState)
 
-### `npm run eject`
+## useContext
+Sử dụng để truyền context từ thằng component cha sang component con mà không cần phải sử dụng prop
+tạo ra 1 file context có state và toogleState
+sử dụng export ThemeContext = createContext()
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+const value = {
+  theme,
+  toogleTheme
+}
+truyền data value thông qua
+<ThemeContext.Provider value={value}>
+{children}
+</ThemeContext>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ở component con sử dụng useContext
+const themeContext = useContext(ThemeContext)
+đối tượng themeContext chính là consumer có các thuộc tính là theme, toogleTheme
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+sử dụng useContext kết hợp với useReduce tương tự với state cần tách được các file: action, reproduce
